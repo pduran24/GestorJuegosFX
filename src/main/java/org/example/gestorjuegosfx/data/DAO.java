@@ -12,4 +12,8 @@ public interface DAO<T> {
     /* Métodos de lectura */
     List<T> findAll();
     Optional<T> findById(Integer id);
+
+
+
+    //SELECT ... FROM tabla1 INNER JOIN tabla2 ON tabla1.columna = tabla2.columna
 }
