@@ -1,5 +1,6 @@
 package org.example.gestorjuegosfx.controllers;
 
+import com.sun.tools.javac.Main;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.example.gestorjuegosfx.data.DataProvider;
 import org.example.gestorjuegosfx.user.UserDAO;
+import org.example.gestorjuegosfx.utils.JavaFXUtil;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -57,26 +59,10 @@ public class LoginController implements Initializable {
         var userOpt = userDAO.findByEmailAndPassword(txtCorreo.getText(),txtContraseña.getText());
         if( userOpt.isPresent() ) {
             lblInfo.setText("Acceso correcto");
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Bienvenido");
-            alert.setHeaderText(null);
-            alert.setContentText("Bienvenido");
-            alert.showAndWait();
 
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/org/example/gestorjuegosfx/main-view.fxml"));
-                Parent root = loader.load();
-                MainController controller = loader.getController();
-                controller.setStage(stage);
-
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.centerOnScreen();
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-
+            JavaFXUtil.showModal(Alert.AlertType.INFORMATION,"Bienvenido", null, "Bienvenido");
+            MainController mainController = JavaFXUtil.setScene("/org/example/gestorjuegosfx/main-view.fxml");
+            mainController.setStage(stage);
 
         } else{
             lblInfo.setText("Error en el acceso");
